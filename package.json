@@ -13,7 +13,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint *.js"
+    "lint": "npx eslint *.js",
+    "start:local": "node app.js"
   },
   "repository": {
     "type": "git",
