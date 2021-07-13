@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getToken } from '../auth/getToken.js';
+import getToken from '../auth/getToken.js';
 
 const getClients = async () => {
   let token = await getToken();
@@ -14,6 +14,4 @@ const getClients = async () => {
   return response.data;
 };
 
-export { 
-  getClients 
-};
+export default getClients;

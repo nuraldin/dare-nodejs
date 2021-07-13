@@ -1,12 +1,21 @@
 import express from 'express';
 
-import { getClients } from '../services/clients/getClients.js';
-import { getPolicies } from '../services/policies/getPolicies.js';
+import getClients from '../services/clients/getClients.js';
+import getPolicies from '../services/policies/getPolicies.js';
 
 const router = express.Router();
 
 /* GET the list of clients details paginated and limited to 10 elements by default. */
 router.get('/', async (req, res, next) => {
+  const user = authenticateToken(req);
+
+  if (!user) {
+    res.status(403).send({
+      code: 403,
+      message: 'Forbidden: token authentication error'
+    })
+  }
+  
   // pagination params
   let limit = (req.query?.limit) ? req.query.limit : 10;
   let page = (req.query?.page) ? req.query.page : 1;
@@ -59,6 +68,15 @@ router.get('/', async (req, res, next) => {
 
 /* GET the client's details */
 router.get('/:id', async (req, res, next) => {
+  const user = authenticateToken(req);
+
+  if (!user) {
+    res.status(403).send({
+      code: 403,
+      message: 'Forbidden: token authentication error'
+    })
+  }
+
   let clients = await getClients();
   let policies = await getPolicies();
 
@@ -78,6 +96,15 @@ router.get('/:id', async (req, res, next) => {
 
 /* GET the client's policies */
 router.get('/:id/policies', async (req, res, next) => {
+  const user = authenticateToken(req);
+
+  if (!user) {
+    res.status(403).send({
+      code: 403,
+      message: 'Forbidden: token authentication error'
+    })
+  }
+  
   let clients = await getClients();
   let policies = await getPolicies();
 

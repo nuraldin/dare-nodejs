@@ -14,6 +14,4 @@ const getToken = async () => {
   return res.data.token;
 };
 
-export {
-  getToken
-};
+export default getToken;

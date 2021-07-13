@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getToken } from '../auth/getToken.js';
+import getToken from '../auth/getToken.js';
 
 const getPolicies = async () => {
   let token = await getToken();
@@ -14,6 +14,4 @@ const getPolicies = async () => {
   return response.data;
 };
 
-export { 
-  getPolicies 
-};
+export default getPolicies;
