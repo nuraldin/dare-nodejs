@@ -2,10 +2,10 @@ import axios from 'axios';
 
 import { getToken } from '../auth/getToken.js';
 
-const getClients = async () => {
+const getPolicies = async () => {
   let token = await getToken();
 
-  let response = await axios.get('https://dare-nodejs-assessment.herokuapp.com/api/clients', {
+  let response = await axios.get('https://dare-nodejs-assessment.herokuapp.com/api/policies', {
     headers: {
       'Authorization': `Bearer ${ token }`
     }
@@ -15,5 +15,5 @@ const getClients = async () => {
 };
 
 export { 
-  getClients 
+  getPolicies 
 };
