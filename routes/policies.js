@@ -1,4 +1,5 @@
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
 
 /* GET the list of a policies' client paginated and limited to 10 elements by default. */
@@ -14,4 +15,4 @@ router.get('/:id', (req, res, next) => {
   res.send(`test get clients from policy id#${req.params?.id}`);
 });
 
-module.exports = router;
+export default router;

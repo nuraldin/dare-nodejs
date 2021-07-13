@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 
-const policiesRouter = require('./routes/policies');
-const clientsRouter = require('./routes/clients');
+import policiesRouter from './routes/policies.js';
+import clientsRouter from './routes/clients.js';
 
 const app = express();
 const port = 8000;
