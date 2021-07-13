@@ -8,8 +8,9 @@ import clientsRouter from './routes/clients.js';
 import authenticateToken from './services/auth/authenticateToken.js';
 
 const app = express();
-app.use(express.json());
 const port = 8000;
+
+app.use(express.json());
 dotenv.config();
 
 app.get('/', (req, res) => {
@@ -18,7 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/login', loginRouter);
 app.use('/policies', authenticateToken, policiesRouter);
-app.use('/clients', clientsRouter);
+app.use('/clients', authenticateToken, clientsRouter);
 
 app.listen(port, () => {
   console.log(`Basic server listening at http://localhost:${port}`);

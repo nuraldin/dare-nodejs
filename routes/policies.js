@@ -1,6 +1,5 @@
 import express from 'express';
 
-import authenticateToken from '../services/auth/authenticateToken.js';
 import getClients from '../services/clients/getClients.js';
 import getPolicies from '../services/policies/getPolicies.js';
 
@@ -8,15 +7,7 @@ const router = express.Router();
 
 /* GET the list of a policies' client paginated and limited to 10 elements by default. */
 router.get('/', async (req, res, next) => {
-  // authenticate
-  const user = authenticateToken(req);
-
-  if (!user) {
-    res.status(403).send({
-      code: 403,
-      message: 'Forbidden: token authentication error'
-    })
-  }
+  let user = req.user;
 
   // pagination params
   let limit = (req.query?.limit) ? req.query.limit : 10;
@@ -53,14 +44,7 @@ router.get('/', async (req, res, next) => {
 
 /* GET the details of a policy's client */
 router.get('/:id', async (req, res, next) => {
-  const user = authenticateToken(req);
-
-  if (!user) {
-    res.status(403).send({
-      code: 403,
-      message: 'Forbidden: token authentication error'
-    })
-  }
+  let user = req.user;
   
   let policies = await getPolicies();
   let policy = policies.find( policy => policy.id == req.params.id);

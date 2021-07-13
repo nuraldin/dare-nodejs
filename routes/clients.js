@@ -7,14 +7,7 @@ const router = express.Router();
 
 /* GET the list of clients details paginated and limited to 10 elements by default. */
 router.get('/', async (req, res, next) => {
-  const user = authenticateToken(req);
-
-  if (!user) {
-    res.status(403).send({
-      code: 403,
-      message: 'Forbidden: token authentication error'
-    })
-  }
+  let user = req.user;
   
   // pagination params
   let limit = (req.query?.limit) ? req.query.limit : 10;
@@ -68,15 +61,9 @@ router.get('/', async (req, res, next) => {
 
 /* GET the client's details */
 router.get('/:id', async (req, res, next) => {
-  const user = authenticateToken(req);
+  let user = req.user;
 
-  if (!user) {
-    res.status(403).send({
-      code: 403,
-      message: 'Forbidden: token authentication error'
-    })
-  }
-
+  // fetch assets
   let clients = await getClients();
   let policies = await getPolicies();
 
@@ -96,15 +83,9 @@ router.get('/:id', async (req, res, next) => {
 
 /* GET the client's policies */
 router.get('/:id/policies', async (req, res, next) => {
-  const user = authenticateToken(req);
+  let user = req.user;
 
-  if (!user) {
-    res.status(403).send({
-      code: 403,
-      message: 'Forbidden: token authentication error'
-    })
-  }
-  
+  // fetch users
   let clients = await getClients();
   let policies = await getPolicies();
 

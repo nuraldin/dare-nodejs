@@ -1,22 +1,32 @@
 import jwt from 'jsonwebtoken';
 
-function authenticateToken(req) {
+function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
-  if ( !token ) return ;
+  if ( !token ) {
+    res.status(403).send({
+      code: 403,
+      message: 'Forbidden: no token provided'
+    });
+  }
 
   let decoded;
   try {
     decoded = jwt.verify(token, process.env.TOKEN_SECRET);
   } catch (e) {
-    return;
+    res.status(403).send({
+      code: 403,
+      message: 'Forbidden: token verification error'
+    });
   }
 
-  return {
+  req.user = {
     name: decoded.username,
     isAdmin: decoded.admin
   };
+
+  next();
 }
 
 export default authenticateToken;
