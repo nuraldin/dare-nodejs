@@ -1,12 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-import loginRouter from './routes/login.js';
-import policiesRouter from './routes/policies.js';
-import clientsRouter from './routes/clients.js';
+import loginRouter from './src/routes/login.js';
+import policiesRouter from './src/routes/policies.js';
+import clientsRouter from './src/routes/clients.js';
 
-import authenticateToken from './services/auth/authenticateToken.js';
-import MemoryCache from './utils/MemoryCache.js';
+import authenticateToken from './src/services/auth/authenticateToken.js';
+import MemoryCache from './src/utils/MemoryCache.js';
 
 const app = express();
 const port = 8000;
@@ -22,6 +22,8 @@ app.use('/login', loginRouter);
 app.use('/policies', authenticateToken, policiesRouter);
 app.use('/clients', authenticateToken, clientsRouter);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Basic server listening at http://localhost:${port}`);
 });
+
+export default server;

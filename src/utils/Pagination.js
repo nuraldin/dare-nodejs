@@ -5,13 +5,18 @@ class Pagination {
   }
 
   getPage(page_number = 1) {
-    let page;
-    if ( this.data.length > this.limit ) {
-      page = this.data.slice((page_number - 1) * this.limit , page_number * this.limit );
-    } else {
-      page = this.data;
+    if ( page_number < 1) {
+      throw new Error('page number must be positive');
     }
 
+    let page = this.data;
+    if ( page.length > this.limit ) {
+      page = page.slice((page_number - 1) * this.limit , page_number * this.limit );
+      if ( page.length == 0) {
+        throw new Error('page number references invalid page');
+      } 
+    }    
+    
     return {
       page_number: page_number,
       pages: Math.ceil( this.data.length / this.limit ),

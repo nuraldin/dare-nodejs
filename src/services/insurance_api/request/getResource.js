@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import getToken from '../../auth/getToken.js';
+import getToken from './getToken.js';
 
 const getResource = async ( endpoint, resource, cache ) => {
   let accessToken = await getToken(cache);

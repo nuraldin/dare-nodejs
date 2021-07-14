@@ -19,13 +19,15 @@ const mockUsers = [
 
 /* POST user details, authenticate and login */
 router.post('/', (req, res, next) => {
-  let user = mockUsers.find( user => user.name === req.body.username && user.password === req.body.password );
+  let user = null;
+  //let user = mockUsers.find( user => user.name === req.body.username && user.password === req.body.password );
   
   if (!user) {
     res.status(401).send({
       code: 401,
       message: "User not found or wrong password"
-    })
+    });
+    return;
   }
 
   let exp = Math.floor(Date.now() / 1000) + (3600 * 48);

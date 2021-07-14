@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
-import * as local_config from '../../local_config/insurance_api_config.js'
+import * as local_config from '../../../../local_config/insurance_api_config.js'
 
 const getToken = async ( cache ) => {
 
