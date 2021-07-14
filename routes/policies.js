@@ -20,9 +20,15 @@ router.get('/', async (req, res, next) => {
     policies = policies.filter(policy => policy.clientId === clientId );
   } 
 
-  policies.forEach( policy => {
-    delete policy.clientId;
-  });
+  policies = policies.map( policy => {
+    return {
+      id: policy.id,
+      amountInsured: policy.amountInsured,
+      email: policy.email,
+      inceptionDate: policy.inceptionDate,
+      installmentPayment: policy.installmentPayment
+    };
+  })
 
   let pagination = new Pagination(policies, req.query?.limit );
   let page = pagination.getPage( req.query?.page )

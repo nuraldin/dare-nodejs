@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import getToken from '../../auth/getToken.js';
+
 const getResource = async ( endpoint, resource, cache ) => {
   let accessToken = await getToken(cache);
   
@@ -7,7 +9,7 @@ const getResource = async ( endpoint, resource, cache ) => {
     'Authorization': `Bearer ${ accessToken }`
   }  
 
-  if ( cache[cacheType]?.etag ) {
+  if ( cache[resource]?.etag ) {
     headers['If-None-Match'] = cache[resource]?.etag;
   }
 
