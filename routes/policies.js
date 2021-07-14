@@ -3,17 +3,14 @@ import express from 'express';
 import getClients from '../services/clients/getClients.js';
 import getPolicies from '../services/policies/getPolicies.js';
 
+import Pagination from '../utils/Pagination.js';
+
 const router = express.Router();
 
 /* GET the list of a policies' client paginated and limited to 10 elements by default. */
 router.get('/', async (req, res, next) => {
   let user = req.user;
-
-  // pagination params
-  let limit = (req.query?.limit) ? req.query.limit : 10;
-  let page = (req.query?.page) ? req.query.page : 1;
-
-  // assets
+  
   let policies = await getPolicies();
  
   if ( !user.isAdmin ) {
@@ -26,20 +23,9 @@ router.get('/', async (req, res, next) => {
     delete policy.clientId;
   });
 
-  let policies_page;
-  if ( policies.length > limit ) {
-    policies_page = policies.slice((page - 1) * limit, page  * limit );
-  } else {
-    policies_page = policies;
-  }
-
-  res.send({
-    page_number: page,
-    pages: Math.ceil(policies.length / limit),
-    total_items: policies.length,
-    items_count: policies_page.length,
-    items: policies_page
-  });
+  let pagination = new Pagination(policies, req.query?.limit );
+  let page = pagination.getPage( req.query?.page )
+  res.send(page);
 });
 
 /* GET the details of a policy's client */

@@ -8,10 +8,6 @@ const router = express.Router();
 /* GET the list of clients details paginated and limited to 10 elements by default. */
 router.get('/', async (req, res, next) => {
   let user = req.user;
-  
-  // pagination params
-  let limit = (req.query?.limit) ? req.query.limit : 10;
-  let page = (req.query?.page) ? req.query.page : 1;
 
   // optional name parameter
   let name = (req.query?.name) ? req.query.name : null;
@@ -43,20 +39,13 @@ router.get('/', async (req, res, next) => {
     clients = [ clients.find( client => client.name === name ) ];
   }
  
-  let clients_page;
-  if ( clients.length > limit ) {
-    clients_page = clients.slice((page - 1) * limit, page  * limit );
-  } else {
-    clients_page = clients;
+  if ( !user.isAdmin ) {
+    clients = clients.filter( client => client.name === name ); 
   }
 
-  res.send({
-    page_number: page,
-    pages: Math.ceil(clients.length / limit),
-    total_items: clients.length,
-    items_count: clients_page.length,
-    items: clients_page
-  });
+  let pagination = new Pagination( clients, req.query?.limit );
+  let page = pagination.getPage( req.query?.page )
+  res.send(page);
 });
 
 /* GET the client's details */
