@@ -7,6 +7,7 @@ import clientsRouter from './src/routes/clients.js';
 
 import authenticateToken from './src/services/auth/authenticateToken.js';
 import MemoryCache from './src/utils/MemoryCache.js';
+import errorHandler from './src/services/error.js';
 
 const app = express();
 const port = 8000;
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 app.use('/login', loginRouter);
 app.use('/policies', authenticateToken, policiesRouter);
 app.use('/clients', authenticateToken, clientsRouter);
+app.use(errorHandler);
 
 const server = app.listen(port, () => {
   console.log(`Basic server listening at http://localhost:${port}`);
