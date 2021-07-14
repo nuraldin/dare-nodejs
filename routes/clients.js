@@ -8,13 +8,14 @@ const router = express.Router();
 /* GET the list of clients details paginated and limited to 10 elements by default. */
 router.get('/', async (req, res, next) => {
   let user = req.user;
+  let cache = req.app.locals.cache;
 
   // optional name parameter
   let name = (req.query?.name) ? req.query.name : null;
 
   // assets
-  let clients = await getClients(req.app.locals.cache);
-  let policies = await getPolicies(req.app.locals.cache);
+  let clients = await getClients(cache);
+  let policies = await getPolicies(cache);
  
   let policies_hash = {};
   policies.forEach(policy => {
@@ -51,8 +52,9 @@ router.get('/', async (req, res, next) => {
 /* GET the client's details */
 router.get('/:id', async (req, res, next) => {
   let user = req.user;
+  let cache = req.app.locals.cache;
 
-  let clients = await getClients(req.app.locals.cache);
+  let clients = await getClients(cache);
   let client = clients.find( clients => clients.id == req.params.id);
   if (!client) res.status(404).send({
     code: 404,
@@ -68,7 +70,7 @@ router.get('/:id', async (req, res, next) => {
     }
   }
 
-  let policies = await getPolicies(req.app.locals.cache);
+  let policies = await getPolicies(cache);
   let client_policies = policies.filter( policies => policies.clientId == client.id );
   client_policies.forEach(client_policy => {
     delete client_policy.email;
@@ -83,8 +85,9 @@ router.get('/:id', async (req, res, next) => {
 /* GET the client's policies */
 router.get('/:id/policies', async (req, res, next) => {
   let user = req.user;
+  let cache = req.app.locals.cache;
 
-  let clients = await getClients(req.app.locals.cache);
+  let clients = await getClients(cache);
   let client = clients.find( clients => clients.id == req.params.id);
   if (!client) res.status(404).send({
     code: '404',
@@ -100,7 +103,7 @@ router.get('/:id/policies', async (req, res, next) => {
     }
   }
   
-  let policies = await getPolicies(req.app.locals.cache);
+  let policies = await getPolicies(cache);
   let client_policies = policies.filter( policies => policies.clientId == client.id );
   client_policies.forEach(client_policy => delete client_policy.clientId );
   res.send(client_policies);
