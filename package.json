@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "mocha 'test/**/*.test.js'",
-    "lint": "npx eslint *.js",
+    "lint": "npx eslint '**/*.js'",
     "start:local": "node app.js"
   },
   "repository": {

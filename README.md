@@ -12,6 +12,13 @@ Endpoints disponibles:
     - /policies: todas las politicas del cliente que las pide.
     - /policies/:id: informacion de una politica especifica del cliente que la pide.
 
+Observaciones:
+
+- Reconozco que es necesario talvez un manejo mejor del uso de usuarios en el login. 
+- Se que se podria tener un manejo mejor del logging y errores. 
+- Podria haber mejor modularizacion para facilitar el testing y obviamente mas coverage.
+- Falta mas linting.
+
 
 ## Installation
 
