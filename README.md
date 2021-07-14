@@ -6,11 +6,11 @@ Endpoints disponibles:
   - /login: Para obtener token de autenticacion. Se debe usar para acceder a los recursos.
   - /clients: informacion de clientes.
     - /clients: obtener todos los clientes.
-    - /clients/:id: obtener cliente con id especifico.
-    - /clients/:id/policies: obtener politicas de un cliente especifico.
+    - /clients/id: obtener cliente con id especifico.
+    - /clients/id/policies: obtener politicas de un cliente especifico.
   - /policies: informacion de politicas
     - /policies: todas las politicas del cliente que las pide.
-    - /policies/:id: informacion de una politica especifica del cliente que la pide.
+    - /policies/id: informacion de una politica especifica del cliente que la pide.
 
 Observaciones:
 
@@ -42,7 +42,7 @@ export {
 };
 ```
 
-Then, it is needed a .env file with a token secret to be able to authenticate incoming requests. Create the file and add the following:
+Then, it is needed a .env file with a token secret to be able to authenticate incoming requests. I've created one but you may change the secret if you wish. the file look like this:
 
 ```bash
 TOKEN_SECRET='your-secret'
