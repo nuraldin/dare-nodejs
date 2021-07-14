@@ -1,7 +1,7 @@
 import express from 'express';
 
-import getClients from '../services/clients/getClients.js';
-import getPolicies from '../services/policies/getPolicies.js';
+import getClients from '../services/insurance_api/getClients.js';
+import getPolicies from '../services/insurance_api/getPolicies.js';
 
 const router = express.Router();
 
@@ -13,8 +13,8 @@ router.get('/', async (req, res, next) => {
   let name = (req.query?.name) ? req.query.name : null;
 
   // assets
-  let clients = await getClients();
-  let policies = await getPolicies();
+  let clients = await getClients(req.app.locals.cache);
+  let policies = await getPolicies(req.app.locals.cache);
  
   let policies_hash = {};
   policies.forEach(policy => {
@@ -52,19 +52,29 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   let user = req.user;
 
-  // fetch assets
-  let clients = await getClients();
-  let policies = await getPolicies();
-
+  let clients = await getClients(req.app.locals.cache);
   let client = clients.find( clients => clients.id == req.params.id);
-  if (!client) res.status(404).end();
+  if (!client) res.status(404).send({
+    code: 404,
+    message: 'Client not found'
+  });
 
+  if ( !user.isAdmin ) {
+    if ( client.name !== user.name ) {
+      res.status(403).send({
+        code: '403',
+        message: 'Forbidden: you are not authorized to access this resource'
+      });
+    }
+  }
+
+  let policies = await getPolicies(req.app.locals.cache);
   let client_policies = policies.filter( policies => policies.clientId == client.id );
   client_policies.forEach(client_policy => {
     delete client_policy.email;
     delete client_policy.clientId;
     delete client_policy.installmentPayment;
-  })
+  });
 
   client.policies = client_policies;
   res.send(client);
@@ -74,16 +84,25 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/policies', async (req, res, next) => {
   let user = req.user;
 
-  // fetch users
-  let clients = await getClients();
-  let policies = await getPolicies();
-
+  let clients = await getClients(req.app.locals.cache);
   let client = clients.find( clients => clients.id == req.params.id);
-  if (!client) res.status(404).end();
-
+  if (!client) res.status(404).send({
+    code: '404',
+    message: 'Client not found'
+  });
+  
+  if ( !user.isAdmin ) {
+    if ( client.name !== user.name ) {
+      res.status(403).send({
+        code: '403',
+        message: 'Forbidden: you are not authorized to access this resource'
+      });
+    }
+  }
+  
+  let policies = await getPolicies(req.app.locals.cache);
   let client_policies = policies.filter( policies => policies.clientId == client.id );
   client_policies.forEach(client_policy => delete client_policy.clientId );
-
   res.send(client_policies);
 });
 
