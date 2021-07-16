@@ -1,6 +1,5 @@
 function errorHandler (err, req, res, next) {
-  console.error(err.stack)
-  res.status(500).send('Internal Server Error!');
+  res.status(err.response.status).send(`${err.response.data.error}:${err.response.data.message}`);
 }
 
 export default errorHandler;
