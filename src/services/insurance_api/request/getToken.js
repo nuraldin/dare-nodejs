@@ -12,9 +12,9 @@ const getToken = async ( cache ) => {
     }
   }
 
-  let res = await axios.post('https://dare-nodejs-assessment.herokuapp.com/api/login', {
-    client_id: local_config.client_id,
-    client_secret: local_config.client_secret
+  let res = await axios.post(`${process.env.INSURANCE_API_BASE_URL}/api/login`, {
+    client_id: local_config.clientId,
+    client_secret: local_config.clientSecret
   }, {
     headers: {
       'accept': 'application/json'
