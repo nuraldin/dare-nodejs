@@ -54,12 +54,16 @@ export {
 };
 ```
 
-Then, it is needed a .env file with a token secret to be able to authenticate incoming requests. You may use one of your own or one I've created, you can access it through https://onetimesecret.com/secret/lx9ww7m1ggitvaeaqp51w36uuya0n8dbut, pass: token-secret, it will only let you see it once, so be careful or ask me to create it again, and add it to the provided .env file like this:
+Then, it is needed a .env file with a token secret to be able to authenticate incoming requests. You may use one of your own or one I've created, you can access it through https://onetimesecret.com/secret/edy5grd0cckirawsmstpg3v97puac5f pass: capgemini, it will only let you see it once, so be careful or ask me to create it again, and add it to the provided .env file like this:
 
 ```bash
 TOKEN_SECRET='your-secret'
 ```
-'your-secret' must be an at least 32 charaters longstring encrypted using the standard HSA 256 encryption.
+'your-secret' must be an at least 32 charaters long string encrypted using the standard HSA 256 encryption. You may generate it yourself by running in a node console:
+
+```bash
+> require('crypto').randomBytes(64).toString('hex') 
+```
 
 Finally, you should be able to start the server, run the following npm script:
 
