@@ -4,10 +4,10 @@ import dotenv from 'dotenv';
 import loginRouter from './src/routes/login/index.js';
 import policiesRouter from './src/routes/policies/index.js';
 import clientsRouter from './src/routes/clients/index.js';
+import errorHandler from './src/routes/error.js';
 
 import authenticateToken from './src/services/auth/authenticateToken.js';
 import MemoryCache from './src/utils/MemoryCache.js';
-import errorHandler from './src/services/error.js';
 
 dotenv.config();
 const server_port = process.env.LOCAL_SERVER_PORT;
