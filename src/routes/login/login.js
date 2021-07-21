@@ -1,4 +1,4 @@
-import generateAccessToken from '../../services/auth/generateAccessToken.js';
+import services from "../../services/index.js";
 
 const mockUsers = [
   {
@@ -26,7 +26,7 @@ const login = (req, res, next) => {
     }
 
     let exp = Math.floor(Date.now() / 1000) + (3600 * 48);
-    const token = generateAccessToken({ 
+    const token = services.auth.generateAccessToken({ 
       username: user.name, 
       exp: exp,
       admin: user.role === 'admin' ? true : false   

@@ -1,13 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-import loginRouter from './src/routes/login/index.js';
-import policiesRouter from './src/routes/policies/index.js';
-import clientsRouter from './src/routes/clients/index.js';
+import routes from "./src/routes/index.js";
+import services from './src/services/index.js';
 
-import authenticateToken from './src/services/auth/authenticateToken.js';
 import MemoryCache from './src/utils/MemoryCache.js';
-import errorHandler from './src/services/error.js';
 
 dotenv.config();
 const server_port = process.env.LOCAL_SERVER_PORT;
@@ -17,10 +14,10 @@ const app = express();
 app.use(express.json());
 app.locals.cache = new MemoryCache();
 
-app.use('/login', loginRouter);
-app.use('/policies', authenticateToken, policiesRouter);
-app.use('/clients', authenticateToken, clientsRouter);
-app.use(errorHandler);
+app.use('/login', routes.login);
+app.use('/policies', services.auth.authenticateToken, routes.policies);
+app.use('/clients', services.auth.authenticateToken, routes.clients);
+app.use(routes.errorHandler);
 
 
 const server = app.listen(server_port, () => {

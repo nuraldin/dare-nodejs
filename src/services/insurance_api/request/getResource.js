@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-import getToken from './getToken.js';
+import auth from '../../auth/index.js';
 
 const getResource = async ( endpoint, resource, cache ) => {
-  let accessToken = await getToken(cache);
+  let accessToken;
+  try {
+    accessToken = await auth.getToken(cache);
+  } catch(e) {
+    throw new Error(`getToken failed: ${e.message}`);
+  }
   
   let headers = {
     'Authorization': `Bearer ${ accessToken }`
@@ -17,10 +22,12 @@ const getResource = async ( endpoint, resource, cache ) => {
   try {
     res = await axios.get(endpoint, { headers: headers });
   } catch(e) {
-    if ( e.response.status == 304 ) {
+    if ( e.response && e.response.status == 304 ) {
       console.log(`Using ${resource} cache...`);
       return cache[resource].data;
     }
+
+    throw new Error(`call to ${endpoint} failed: ${e.message}`);
   }
 
   console.log(`Refreshing ${resource} cache...`);

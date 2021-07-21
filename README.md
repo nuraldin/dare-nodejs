@@ -2,7 +2,7 @@
 
 This is an implementation of the Dare Node.js code assesment found here: https://dare-nodejs-assessment.herokuapp.com/assessment
 
-After launching the server, the available endpoints will be:
+After launching the server, the available endpoints are:
   - /login: Use this in order to obtain an access token. It must be used afterwards in each API call alongside the Authorization http header (Authorization: Bearer access_token) in order to access the other endpoints.
   - /clients: client information.
     - /clients: gets all clients.
@@ -13,18 +13,7 @@ After launching the server, the available endpoints will be:
     - /policies/id: gets a specific policy related to user who makes the request (identified via access token).
 
 
-All users with user role can only access their own resources, unless they have Admin role which lets them access all resources.
-
-For login you can use two test users: 
-```bash   
-    // Admin Role
-    username: 'Britney'
-    password: 'pass'
-
-    // User Role
-    name: 'Barnett',
-    password: 'pass',
-```
+All users with user role can only access their own resources, unless they have Admin role which lets them access all resources. Conveniently, I've set up on the postman collection a login test for an admin and a user.
 
 ## Installation
 
@@ -42,33 +31,41 @@ node -v # v14.17.3 LTS
 
 ## Usage
 
-To start server locally, first you need to set up a file with your credentials to let our api connect to insurance api. Create a file in a folder called **local_config** called **insurance_api_config.js** and fill it like this:
+To start server locally, first you need to set up a file with your credentials to let our api connect to insurance api. Create a folder on your top level folder (same level as src and test and package.json) called **local_config** and add it in a file called **insurance_api_config.js** and fill it like this:
 
 ```javascript
-const client_id = 'your id';
-const client_secret = 'your secret';
+const clientId = 'your id'; // Assesment id: dare
+const clientSecret = 'your secret'; // Assesment secret: s3cr3t
 
 export {
-  client_id, 
-  client_secret
+  clientId, 
+  clientSecret
 };
 ```
 
-Then, it is needed a .env file with a token secret to be able to authenticate incoming requests. You may use one of your own or one I've created, you can access it through https://onetimesecret.com/secret/edy5grd0cckirawsmstpg3v97puac5f pass: capgemini, it will only let you see it once, so be careful or ask me to create it again, and add it to the provided .env file like this:
+Then, you need to change the TOKEN_SECRET variable on the provided .env file. This will be used to sign JWTs generated on the server in order to authenticate incoming requests. 
+You may use one of your own, i.e.: an arbitrary secret, or generate one as explained on the TOKEN SECRET section below. 
+( I'm providing you a generated secret via https://onetimesecret.com/secret/a1js46xae2p50jsik6c26c2dl9qu2ib pass: capgemini. It is one time only access so be careful)
+
+Add the TOKEN_SECRET to the provided .env file:
 
 ```bash
-TOKEN_SECRET='your-secret'
-```
-'your-secret' must be an at least 32 charaters long string encrypted using the standard HSA 256 encryption. You may generate it yourself by running in a node console:
-
-```bash
-> require('crypto').randomBytes(64).toString('hex') 
+TOKEN_SECRET='paste-or-write-your-secret-in-here'
 ```
 
-Finally, you should be able to start the server, run the following npm script:
+Finally, the server should be able to start, run the following npm script:
 
 ```bash
   npm run start:local
+```
+
+## TOKEN SECRET
+
+You shouldn't worry about the secret as I'm sharing one with you but if you'd like to make it yourself, then 'your-secret' must be an at least 32 charaters long string encrypted using the standard HSA 256 encryption. 
+You may generate it yourself by running in a node console:
+
+```bash
+> require('crypto').randomBytes(64).toString('hex') 
 ```
 
 ## Testing
@@ -86,6 +83,6 @@ You may also test endpoints by using the following postman collection via the bu
 ## Observations
 
 - It could be used a better login implementation which I do not know of.
-- Also, error handling could be improved.
+- Also, error handling could be improved. For example, adding more try/catch blocks to better define and propagate errors.
 - More thorough coverage is needed.
 - More thorough linting is also needed.

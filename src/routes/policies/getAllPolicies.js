@@ -1,5 +1,4 @@
-import getClients from '../../services/insurance_api/getClients.js';
-import getPolicies from '../../services/insurance_api/getPolicies.js';
+import services from '../../services/index.js';
 
 import Pagination from '../../utils/Pagination.js';
 
@@ -8,10 +7,10 @@ const getAllPolicies = async (req, res, next) => {
     let user = req.user;
     let cache = req.app.locals.cache;
     
-    let policies = await getPolicies(cache);
+    let policies = await services.insurance_api.getPolicies(cache);
 
     if ( !user.isAdmin ) {
-      let clients = await getClients(cache);
+      let clients = await services.insurance_api.getClients(cache);
       let clientId = clients.find(client => client.name === user.name)['id'];
       policies = policies.filter(policy => policy.clientId === clientId );
     } 
