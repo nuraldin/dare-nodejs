@@ -31,11 +31,11 @@ node -v # v14.17.3 LTS
 
 ## Usage
 
-To start server locally, first you need to set up a file with your credentials to let our api connect to insurance api. Create a folder on your top level folder (same level as src and test and package.json) called **local_config** and add in it a file called **insurance_api_config.js** and fill it like this:
+To start server locally, first you need to set up a file with your credentials to let our api connect to insurance api. Create a folder on your top level folder (same level as src and test and package.json) called **local_config** and add it in a file called **insurance_api_config.js** and fill it like this:
 
 ```javascript
-const clientId = 'your id';
-const clientSecret = 'your secret';
+const clientId = 'your id'; // Assesment id: dare
+const clientSecret = 'your secret'; // Assesment secret: s3cr3t
 
 export {
   clientId, 
