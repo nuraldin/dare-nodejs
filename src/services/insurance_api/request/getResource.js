@@ -22,10 +22,12 @@ const getResource = async ( endpoint, resource, cache ) => {
   try {
     res = await axios.get(endpoint, { headers: headers });
   } catch(e) {
-    if ( e.response.status == 304 ) {
+    if ( e.response && e.response.status == 304 ) {
       console.log(`Using ${resource} cache...`);
       return cache[resource].data;
     }
+
+    throw new Error(`call to ${endpoint} failed: ${e.message}`);
   }
 
   console.log(`Refreshing ${resource} cache...`);
