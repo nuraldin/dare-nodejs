@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-import getToken from './getToken.js';
+import auth from '../../auth/index.js';
 
 const getResource = async ( endpoint, resource, cache ) => {
-  let accessToken = await getToken(cache);
+  let accessToken;
+  try {
+    accessToken = await auth.getToken(cache);
+  } catch(e) {
+    throw new Error(`getToken failed: ${e.message}`);
+  }
   
   let headers = {
     'Authorization': `Bearer ${ accessToken }`

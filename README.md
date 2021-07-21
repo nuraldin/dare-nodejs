@@ -43,13 +43,17 @@ export {
 };
 ```
 
-Then, it is needed a .env file with a token secret to be able to authenticate incoming requests. You may use one of your own or one I've created, you can access it through https://onetimesecret.com/secret/edy5grd0cckirawsmstpg3v97puac5f pass: capgemini, it will only let you see it once, so be careful or ask me to create it again, and add it to the provided .env file like this:
+Then, you need to change the TOKEN_SECRET variable on the provided .env file. This will be used to sign JWTs generated on the server in order to authenticate incoming requests. 
+You may use one of your own, i.e.: an arbitrary secret, or generate one as explained on the TOKEN SECRET section below. 
+( I'm providing you a generated secret via https://onetimesecret.com/secret/a1js46xae2p50jsik6c26c2dl9qu2ib pass: capgemini. It is one time only access so be careful)
+
+Add the TOKEN_SECRET to the provided .env file:
 
 ```bash
-TOKEN_SECRET='your-secret'
+TOKEN_SECRET='paste-or-write-your-secret-in-here'
 ```
 
-Finally, you should be able to start the server, run the following npm script:
+Finally, the server should be able to start, run the following npm script:
 
 ```bash
   npm run start:local
@@ -79,6 +83,6 @@ You may also test endpoints by using the following postman collection via the bu
 ## Observations
 
 - It could be used a better login implementation which I do not know of.
-- Also, error handling could be improved.
+- Also, error handling could be improved. For example, adding more try/catch blocks to better define and propagate errors.
 - More thorough coverage is needed.
 - More thorough linting is also needed.

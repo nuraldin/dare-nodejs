@@ -1,17 +1,16 @@
-import getClients from '../../services/insurance_api/getClients.js';
-import getPolicies from '../../services/insurance_api/getPolicies.js';
+import services from "../../services/index.js";
 
 const getPolicy = async (req, res, next) => {
   try {
     let user = req.user;
     let cache = req.app.locals.cache;
     
-    let policies = await getPolicies(cache);
+    let policies = await services.insurance_api.getPolicies(cache);
     let policy = policies.find( policy => policy.id == req.params.id);
     if ( !policy ) res.status(404).end();
     
     if ( !user.isAdmin ) {
-      let clients = await getClients(cache);
+      let clients = await services.insurance_api.getClients(cache);
       let clientId = clients.find(client => client.name === user.name)['id'];
       if ( policy.clientId !== clientId ) {
         res.status(403).send({

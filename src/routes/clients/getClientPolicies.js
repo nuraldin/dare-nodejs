@@ -1,5 +1,4 @@
-import getClients from '../../services/insurance_api/getClients.js';
-import getPolicies from '../../services/insurance_api/getPolicies.js';
+import services from "../../services/index.js";
 
 const getClientPolicies = async (req, res, next) => {
   try {

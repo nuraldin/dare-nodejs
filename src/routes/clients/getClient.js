@@ -1,12 +1,11 @@
-import getClients from '../../services/insurance_api/getClients.js';
-import getPolicies from '../../services/insurance_api/getPolicies.js';
+import services from '../../services/index.js';
 
 const getClient = async (req, res, next) => {
   try {
     let user = req.user;
     let cache = req.app.locals.cache;
 
-    let clients = await getClients(cache);
+    let clients = await services.insurance_api.getClients(cache);
     let client = clients.find( clients => clients.id == req.params.id);
     if (!client) res.status(404).send({
       code: 404,
@@ -22,7 +21,7 @@ const getClient = async (req, res, next) => {
       }
     }
 
-    let policies = await getPolicies(cache);
+    let policies = await services.insurance_api.getPolicies(cache);
     let client_policies = policies.filter( policies => policies.clientId == client.id );
     client_policies = client_policies.map( policy => {
       return {

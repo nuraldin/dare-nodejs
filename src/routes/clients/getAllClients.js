@@ -1,7 +1,5 @@
 
-import getClients from '../../services/insurance_api/getClients.js';
-import getPolicies from '../../services/insurance_api/getPolicies.js';
-
+import services from '../../services/index.js';
 import Pagination from '../../utils/Pagination.js';
 
 const getAllClients = async (req, res, next) => {
@@ -13,8 +11,8 @@ const getAllClients = async (req, res, next) => {
     let name = (req.query?.name) ? req.query.name : null;
 
     // assets
-    let clients = await getClients(cache);
-    let policies = await getPolicies(cache);
+    let clients = await services.insurance_api.getClients(cache);
+    let policies = await services.insurance_api.getPolicies(cache);
   
     let policies_hash = {};
     policies.forEach( policy => {
