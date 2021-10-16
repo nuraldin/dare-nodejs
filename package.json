@@ -11,8 +11,10 @@
     "chai-spies": "^1.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-pino-logger": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mocha": "^8.4.0"
+    "mocha": "^8.4.0",
+    "pino": "^6.13.0"
   },
   "devDependencies": {
     "eslint": "^7.30.0",
@@ -23,7 +25,7 @@
   "scripts": {
     "test": "mocha --timeout=3000 --recursive",
     "lint": "npx eslint '**/*.js'",
-    "start:local": "node app.js"
+    "start:local": "NODE_ENV=dev LOG_LEVEL=debug node app.js"
   },
   "repository": {
     "type": "git",

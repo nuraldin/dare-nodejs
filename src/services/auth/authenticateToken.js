@@ -1,6 +1,8 @@
+import logger from '../../utils/logger.js';
 import jwt from 'jsonwebtoken';
 
 function authenticateToken(req, res, next) {
+  console.log(logger.level);
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
